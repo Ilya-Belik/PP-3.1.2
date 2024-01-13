@@ -8,9 +8,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import ru.itmentor.spring.boot_security.demo.services.PersonService;
 
 @Controller
-@RequestMapping("/")
-public class MainController {
-
+@RequestMapping("/user")
+public class UserController {
     private final PersonService personService;
 
     public MainController(PersonService personService) {
