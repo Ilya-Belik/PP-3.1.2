@@ -1,8 +1,13 @@
 package ru.itmentor.spring.boot_security.demo.models;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.hibernate.annotations.Cascade;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 import java.util.Set;
+@JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler"})
 @Entity
 @Table(name="person")
 public class Person {
@@ -12,12 +17,12 @@ public class Person {
     private Integer id;
 
     @NotEmpty(message = "Имя не должно быть пустым")
-    @Size(min=2, max=50, message = "имя не должно быть короче 2 или длиннее 50 символов")
+    @Size(min=2, max=50, message = "Псевдоним не должен быть корче 2 или длиннее 50 символов")
     @Column(name="username")
     private String username;
 
     @NotEmpty(message = "Имя не должно быть пустым")
-    @Size(min=2, max=50, message = "Имя не дожно быть короче 2 или длиннее 50 символов")
+    @Size(min=2, max=50, message = "Имя не дожно быть корче 2 или длиннее 50 символов")
     @Column(name="name")
     private String name;
 
@@ -26,7 +31,7 @@ public class Person {
     @Column(name = "password")
     private String password;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany
     @JoinTable(name = "person_roles",
             joinColumns = @JoinColumn(name = "person_id"),
             inverseJoinColumns = @JoinColumn(name = "roles_id"))
@@ -78,5 +83,10 @@ public class Person {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("Person{%s\n%s\n%s\n%s\n", this.id, this.username, this.name, this.password);
     }
 }
