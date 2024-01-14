@@ -1,6 +1,5 @@
 package ru.itmentor.spring.boot_security.demo.services;
 
-import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -42,8 +41,7 @@ public class PersonServiceImpl implements PersonService {
             throw new UsernameNotFoundException("User not found");
         }
         Person person = personOptional.get();
-        Hibernate.initialize(person.getRole());
-        return new User(person.getUsername(), person.getPassword(), person.getRole());
+        return new User(person.getUsername(), person.getPassword(), person.getRoles());
     }
 
     @Transactional
@@ -51,7 +49,7 @@ public class PersonServiceImpl implements PersonService {
     public void addNewPerson(Person person) {
         Set<Role> roles = new HashSet<>();
         roles.add(roleRepository.findByName("ROLE_USER"));
-        person.setRole(roles);
+        person.setRoles(roles);
         personRepository.save(person);
     }
 
