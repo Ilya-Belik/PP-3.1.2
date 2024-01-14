@@ -9,6 +9,7 @@ import ru.itmentor.spring.boot_security.demo.services.PersonService;
 
 @Controller
 @RequestMapping("/user")
+// Тут прошу прощения с неймингом, в гите код исправил, а название файла забыл
 public class UserController {
     private final PersonService personService;
 
