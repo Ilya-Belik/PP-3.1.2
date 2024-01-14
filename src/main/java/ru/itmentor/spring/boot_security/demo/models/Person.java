@@ -7,7 +7,8 @@ import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 import java.util.Set;
-@JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler"})
+
+@JsonIgnoreProperties({"roles"})
 @Entity
 @Table(name="person")
 public class Person {
@@ -17,12 +18,12 @@ public class Person {
     private Integer id;
 
     @NotEmpty(message = "Имя не должно быть пустым")
-    @Size(min=2, max=50, message = "Псевдоним не должен быть корче 2 или длиннее 50 символов")
+    @Size(min=2, max=50, message = "Псевдоним не должен быть короче 2 или длиннее 50 символов")
     @Column(name="username")
     private String username;
 
     @NotEmpty(message = "Имя не должно быть пустым")
-    @Size(min=2, max=50, message = "Имя не дожно быть корче 2 или длиннее 50 символов")
+    @Size(min=2, max=50, message = "Имя не должно быть короче 2 или длиннее 50 символов")
     @Column(name="name")
     private String name;
 
@@ -31,21 +32,18 @@ public class Person {
     @Column(name = "password")
     private String password;
 
-    @ManyToMany
-    @JoinTable(name = "person_roles",
-            joinColumns = @JoinColumn(name = "person_id"),
-            inverseJoinColumns = @JoinColumn(name = "roles_id"))
-    private Set<Role> role;
+    @OneToMany(mappedBy = "person", cascade = CascadeType.ALL)
+    private Set<Role> roles;
 
     public Person() {
     }
 
-    public Set<Role> getRole() {
-        return role;
+    public Set<Role> getRoles() {
+        return roles;
     }
 
-    public void setRole(Set<Role> roles) {
-        this.role = roles;
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
     }
 
     public Person(String username, String name) {
